@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+    WELCOME TO THE STRIVE TEAM GENERATOR!
+
+    In this app you will generate teams and assign the participants to them.
+    You will use the Bootstrap components for the elements of your app.
+
+    The features are the following:
+    - The user should be able to add a list of names, find a way to get the user input and fill a list with the new name.
+    - The user should be able to set the number of teams he wants, so that they will be generated. A team is just another list to be displayed.
+    - An "Assign" button will be required in order to launch the team generation functionality.
+    - Every time the user clicks on the "Assign" button, a random name is placed in a team and removed from the initial list.
+    - Each team should be inside a "column" to be responsive.
+    - [EXTRA] Create a button to remove a user from a team, and putting him back in the main list, waiting to be reassigned.
+    - [EXTRA] Create a button to reset the state of the app.
+-->
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <style>
+        body{
+            background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(118,191,189,1) 100%);
+        }
+    </style>
+    <script>
+        waitingLs=['deault'];
+        function addusers(){
+            var str=document.getElementById("#names").value;
+            var names=str.split("\n");
+            for(var i=0;i<names.length;i++){
+                waitingLs.add(names[i]);
+            }
+            //waitingLs.add(str.spli('\n'));
+            alert("sucess");
+        }
+        function generateteams(){
+              var n =document.querySelector("#tn").value;
+             var tu= waitingLs.length/n ;
+             let bg=[];
+             c=0;
+             
+             var b=document.createElement("div");
+             for(var i=0;i<tu;i++){
+                    
+                    var t=document.createElement("ul");
+                 for(var j=0;j<n;j++){
+                    bg[i][j]=waitingLs[c];
+                    
+                    var ui=document.createElement("li");
+                    var z=document.createTextNode(waitingLs[c]);
+                    c++;
+                    ui.appendChild(z);
+                 }
+                 t.appendChild(ui);
+             }
+             b.appendChild(t);
+             document.getElementById("#tm").appendChild(b);
+        }
+        
+    </script>
+    <style>
+      h1 {
+        text-align: center;
+        background-color: rgb(229, 255, 0);
+      }
+      .container-fluid {
+        background-color: rgb(37, 180, 216);
+      }
+    
+    </style>
+    <div class="container-fluid">
+      <div class="row">
+        <h1><strong>TEAM GENERATOR</strong></h1>
+      </div>
+    </div>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <label for="names">Add names (one per line)</label>
+        <textarea name="names" id="names" cols="30" rows="10" placeholder="Add Names">
+</textarea>
+      </div>
+      <div class="container">
+      <div class="row">
+        <button type="button" class="btn btn-primary" onclick="addusers()">Add Users</button>
+
+        
+        <select id="tn" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <option selected>select number of teams</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+          </select>
+          <button type="button" class="btn btn-success" onclick="generateteams()">Generate Teams</button>
+           </div>
+    </div>
+</div>
+    </div>
+    <div id ="tm"class="container">
+
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
