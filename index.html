@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <!--
-    WELCOME TO THE STRIVE TEAM GENERATOR!
+WELCOME TO THE STRIVE TEAM GENERATOR!
 
-    In this app you will generate teams and assign the participants to them.
-    You will use the Bootstrap components for the elements of your app.
+In this app you will generate teams and assign the participants to them.
+You will use the Bootstrap components for the elements of your app.
 
-    The features are the following:
-    - The user should be able to add a list of names, find a way to get the user input and fill a list with the new name.
-    - The user should be able to set the number of teams he wants, so that they will be generated. A team is just another list to be displayed.
-    - An "Assign" button will be required in order to launch the team generation functionality.
-    - Every time the user clicks on the "Assign" button, a random name is placed in a team and removed from the initial list.
-    - Each team should be inside a "column" to be responsive.
-    - [EXTRA] Create a button to remove a user from a team, and putting him back in the main list, waiting to be reassigned.
-    - [EXTRA] Create a button to reset the state of the app.
+The features are the following:
+- The user should be able to add a list of names, find a way to get the user input and fill a list with the new name.
+- The user should be able to set the number of teams he wants, so that they will be generated. A team is just another list to be displayed.
+- An "Assign" button will be required in order to launch the team generation functionality.
+- Every time the user clicks on the "Assign" button, a random name is placed in a team and removed from the initial list.
+- Each team should be inside a "column" to be responsive.
+- [EXTRA] Create a button to remove a user from a team, and putting him back in the main list, waiting to be reassigned.
+- [EXTRA] Create a button to reset the state of the app.
 -->
 <html lang="en">
   <head>
@@ -30,91 +30,175 @@
       integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
       crossorigin="anonymous"
     />
+
     <style>
-        body{
-            background: rgb(238,174,202);
-background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(118,191,189,1) 100%);
-        }
-    </style>
-    <script>
-        waitingLs=['deault'];
-        function addusers(){
-            var str=document.getElementById("#names").value;
-            var names=str.split("\n");
-            for(var i=0;i<names.length;i++){
-                waitingLs.add(names[i]);
-            }
-            //waitingLs.add(str.spli('\n'));
-            alert("sucess");
-        }
-        function generateteams(){
-              var n =document.querySelector("#tn").value;
-             var tu= waitingLs.length/n ;
-             let bg=[];
-             c=0;
-             
-             var b=document.createElement("div");
-             for(var i=0;i<tu;i++){
-                    
-                    var t=document.createElement("ul");
-                 for(var j=0;j<n;j++){
-                    bg[i][j]=waitingLs[c];
-                    
-                    var ui=document.createElement("li");
-                    var z=document.createTextNode(waitingLs[c]);
-                    c++;
-                    ui.appendChild(z);
-                 }
-                 t.appendChild(ui);
-             }
-             b.appendChild(t);
-             document.getElementById("#tm").appendChild(b);
-        }
-        
-    </script>
-    <style>
-      h1 {
-        text-align: center;
-        background-color: rgb(229, 255, 0);
+      .btn-back {
+        visibility: hidden;
       }
-      .container-fluid {
-        background-color: rgb(37, 180, 216);
+
+      .team .list-group-item:hover .btn-back {
+        visibility: visible;
       }
-    
+      body {
+        background-color: cadetblue;
+      }
     </style>
-    <div class="container-fluid">
-      <div class="row">
-        <h1><strong>TEAM GENERATOR</strong></h1>
-      </div>
-    </div>
   </head>
   <body>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path
+        fill="#0099ff"
+        fill-opacity="1"
+        d="M0,128L17.1,144C34.3,160,69,192,103,170.7C137.1,149,171,75,206,64C240,53,274,107,309,138.7C342.9,171,377,181,411,170.7C445.7,160,480,128,514,101.3C548.6,75,583,53,617,80C651.4,107,686,181,720,213.3C754.3,245,789,235,823,229.3C857.1,224,891,224,926,240C960,256,994,288,1029,293.3C1062.9,299,1097,277,1131,261.3C1165.7,245,1200,235,1234,218.7C1268.6,203,1303,181,1337,192C1371.4,203,1406,245,1423,266.7L1440,288L1440,0L1422.9,0C1405.7,0,1371,0,1337,0C1302.9,0,1269,0,1234,0C1200,0,1166,0,1131,0C1097.1,0,1063,0,1029,0C994.3,0,960,0,926,0C891.4,0,857,0,823,0C788.6,0,754,0,720,0C685.7,0,651,0,617,0C582.9,0,549,0,514,0C480,0,446,0,411,0C377.1,0,343,0,309,0C274.3,0,240,0,206,0C171.4,0,137,0,103,0C68.6,0,34,0,17,0L0,0Z"
+      ></path>
+    </svg>
+    <h1><strong>Team Generator</strong></h1>
     <div class="container">
       <div class="row">
-        <label for="names">Add names (one per line)</label>
-        <textarea name="names" id="names" cols="30" rows="10" placeholder="Add Names">
-</textarea>
+        <div class="col-12 col-sm-6 py-4 d-flex align-items-center">
+          <span class="mx-1">New member:</span>
+          <form onsubmit="addPerson(event)">
+            <input id="input-name" type="text" class="ml-auto mr-2" />
+            <button type="submit" class="btn btn-primary my-2">Add</button>
+          </form>
+        </div>
+        <div class="col-12 col-sm-6 py-4 d-flex align-items-center">
+          <span class="mx-1">Teams:</span>
+          <div class="ml-auto">
+            <button class="btn btn-primary" onclick="removeTeam()">-</button>
+            <span id="teams-number" class="px-3">2</span>
+            <button class="btn btn-primary" onclick="addTeam()">+</button>
+          </div>
+        </div>
+
+        <div class="col-6 mx-auto">
+          <ul id="team-queue" class="list-group"></ul>
+          <div class="d-flex">
+            <button class="btn btn-primary mx-auto my-3" onclick="assign()">
+              Assign
+            </button>
+            <button class="btn btn-danger mx-auto my-3" onclick="reset()">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="col-12 my-5">
+          <div id="teams-row" class="row"></div>
+        </div>
       </div>
-      <div class="container">
-      <div class="row">
-        <button type="button" class="btn btn-primary" onclick="addusers()">Add Users</button>
+    </div>
 
-        
-        <select id="tn" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-            <option selected>select number of teams</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="3">4</option>
-          </select>
-          <button type="button" class="btn btn-success" onclick="generateteams()">Generate Teams</button>
-           </div>
-    </div>
-</div>
-    </div>
-    <div id ="tm"class="container">
+    <script>
+      const inputName = document.querySelector("#input-name");
+      const teamQueue = document.querySelector("#team-queue");
 
-    </div>
+      const teamsN = document.querySelector("#teams-number");
+      const teamsRow = document.querySelector("#teams-row");
+
+      function addPerson(event) {
+        event.preventDefault();
+
+        const li = document.createElement("li");
+        li.classList.add("list-group-item");
+        li.classList.add("d-flex");
+        li.classList.add("align-items-center");
+        li.innerHTML = inputName.value;
+
+        const backBtn = document.createElement("button");
+
+        backBtn.classList.add("btn");
+        backBtn.classList.add("btn-outline-primary");
+        backBtn.classList.add("btn-back");
+        backBtn.classList.add("ml-auto");
+
+        backBtn.addEventListener("click", function () {
+          teamQueue.appendChild(this.parentNode);
+        });
+
+        backBtn.innerHTML = "⬅";
+
+        li.appendChild(backBtn);
+
+        teamQueue.appendChild(li);
+      }
+
+      window.onload = function () {
+        console.log("loading");
+        createTeams();
+      };
+
+      function createTeams() {
+        for (let i = 0; i < teamsN.innerHTML; i++) {
+          teamsRow.innerHTML += `
+                        <div class="col-6 col-sm-3 team">
+                            <h4>Team ${i + 1}</h4>
+                            <ul class="list-group">
+                            </ul>
+                        </div>
+                    `;
+        }
+      }
+
+      function addTeam() {
+        const teamNumber = parseInt(teamsN.innerHTML) + 1;
+
+        teamsN.innerHTML = teamNumber;
+
+        teamsRow.innerHTML += `
+                    <div class="col-6 col-sm-3 team">
+                        <h4>Team ${teamNumber}</h4>
+                        <ul class="list-group">
+                        </ul>
+                    </div>
+                `;
+      }
+
+      function removeTeam() {
+        const newTeamsN = parseInt(teamsN.innerHTML) - 1;
+
+        if (newTeamsN < 2) return;
+
+        teamsN.innerHTML = newTeamsN;
+
+        const teamsList = document.querySelectorAll(".team");
+        const lastTeam = teamsList[teamsList.length - 1];
+
+        const list = lastTeam.querySelector("ul");
+
+        while (list.children.length !== 0) {
+          teamQueue.appendChild(list.children[0]);
+        }
+
+        lastTeam.remove();
+      }
+
+      function assign() {
+        const person = teamQueue.children[0];
+
+        if (!person) return;
+
+        const teams = document.querySelectorAll(".team > ul");
+        const randomIndex = Math.floor(Math.random() * teams.length);
+
+        teams[randomIndex].appendChild(person);
+
+        console.log({ person, randomIndex });
+      }
+
+      function reset() {
+        teamQueue.innerHTML = "";
+
+        teamsRow.innerHTML = "";
+
+        inputName.value = "";
+
+        teamsN.innerHTML = 2;
+
+        createTeams();
+      }
+    </script>
+
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
